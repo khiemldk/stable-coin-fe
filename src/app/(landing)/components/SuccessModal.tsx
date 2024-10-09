@@ -63,17 +63,8 @@ const Body: FC<IFBodyProps> = ({ txHash, label, handleClose }) => {
         )}
       </VStack>
       <HStack className="justify-center mt-1 w-full">
-        <StyledButton
-          onClick={handleClose}
-          variant="solid"
-          color="primary"
-          size="sm"
-          className="md:w-[47%] w-full md:flex hidden"
-        >
-          CANCEL
-        </StyledButton>
-        <StyledButton onClick={handleClose} variant="solid" color="primary" size="sm" className="md:w-[47%] w-full">
-          CONFIRM
+        <StyledButton onClick={handleClose} variant="solid" color="primary" size="sm" className="w-full">
+          OK
         </StyledButton>
       </HStack>
     </div>

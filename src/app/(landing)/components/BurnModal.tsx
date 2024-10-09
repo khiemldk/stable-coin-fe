@@ -53,7 +53,7 @@ const Body = () => {
       toast.error(error.message);
     },
     onSuccess: async (data: { txHash: `0x${string}` }, request) => {
-      dispatch(setModalType([ModalType.SUCCESS, `Burn ${request.amount} USDC Successfully!`]));
+      dispatch(setModalType([ModalType.SUCCESS, `Burn ${request.amount} USDC successfully!`]));
       dispatch(setTxHash(data.txHash));
     },
   });

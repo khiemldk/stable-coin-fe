@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-export const shortenWalletAddress = (address: string): string => {
+export const shortenWalletAddress = (address: string, first?: number, last?: Number): string => {
   if (typeof address !== 'string') {
     return '';
   }
@@ -12,6 +12,9 @@ export const shortenWalletAddress = (address: string): string => {
     return address;
   }
 
+  if (first && last) {
+    return `${address.slice(0, first)}...${address.slice(-last)}`;
+  }
   return `${address.slice(0, 5)}...${address.slice(-5)}`;
 };
 

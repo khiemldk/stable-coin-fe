@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { sleep } from '@/lib/utils';
+import { shortenWalletAddress, sleep } from '@/lib/utils';
 import { mintSchema } from '@/lib/validation';
 import useReadNewWallet from '@/hooks/useReadNewWallet';
 import { useAppDispatch } from '@/hooks/useRedux';
@@ -57,7 +57,12 @@ const Body = ({ address }: { address: `0x${string}` }) => {
       toast.error('Mint USDC failed');
     },
     onSuccess: async (data: { txHash: `0x${string}` }, request) => {
-      dispatch(setModalType([ModalType.SUCCESS, `Mint ${request.amount} USDC Successfully!`]));
+      dispatch(
+        setModalType([
+          ModalType.SUCCESS,
+          `Mint ${request.amount} USDC to ${shortenWalletAddress(address, 2, 6)} successfully!`,
+        ])
+      );
       dispatch(setTxHash(data.txHash));
     },
   });

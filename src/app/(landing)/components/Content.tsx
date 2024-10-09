@@ -39,7 +39,12 @@ export default function Content({ ...props }: Props) {
     },
     onSuccess: async (res) => {
       dispatch(setNewWallet(res.walletAddress));
-      dispatch(setModalType([ModalType.SUCCESS, 'Create Wallet Successfully!']));
+      dispatch(
+        setModalType([
+          ModalType.SUCCESS,
+          `Create a new wallet (${shortenWalletAddress(res.walletAddress, 2, 6)}) successfully!`,
+        ])
+      );
     },
   });
 
@@ -50,7 +55,16 @@ export default function Content({ ...props }: Props) {
       toast.error(error.message);
     },
     onSuccess: async (data: { txHash: `0x${string}` }) => {
-      dispatch(setModalType([ModalType.SUCCESS, 'Collect USDC Successfully!']));
+      dispatch(
+        setModalType([
+          ModalType.SUCCESS,
+          `Collect ${bigNumberFormat(`${balanceNewAddress || 0}`)} USDC from ${shortenWalletAddress(
+            newWallet,
+            2,
+            6
+          )} successfully!`,
+        ])
+      );
       dispatch(setTxHash(data.txHash));
     },
   });
