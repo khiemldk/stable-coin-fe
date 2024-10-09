@@ -53,7 +53,7 @@ const StyledButton = forwardRef<'button', Props>((props, ref) => {
           'border hover:border-black/80 hover:text-black/80 border-black text-black':
             variant === 'bordered' && color === 'default',
           '': variant === 'bordered' && color === 'primary',
-          'opacity-50 cursor-not-allowed': disabled,
+          'opacity-50 cursor-not-allowed pointer-events-none': disabled,
         }
       )}
       {...getButtonProps()}
