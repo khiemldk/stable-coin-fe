@@ -56,8 +56,8 @@ const Body = ({ address }: { address: `0x${string}` }) => {
     onError: () => {
       toast.error('Mint USDC failed');
     },
-    onSuccess: async (data: { txHash: `0x${string}` }) => {
-      dispatch(setModalType(ModalType.SUCCESS));
+    onSuccess: async (data: { txHash: `0x${string}` }, request) => {
+      dispatch(setModalType([ModalType.SUCCESS, `Mint ${request.amount} USDC Successfully!`]));
       dispatch(setTxHash(data.txHash));
     },
   });

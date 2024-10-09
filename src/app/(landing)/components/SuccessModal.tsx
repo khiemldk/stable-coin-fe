@@ -15,14 +15,16 @@ interface SuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
   txHash: `0x${string}` | '';
+  label: string;
 }
 
 interface IFBodyProps {
   txHash: `0x${string}` | '';
   handleClose: () => void;
+  label: string;
 }
 
-export const SuccessModal: FC<SuccessModalProps> = ({ txHash, isOpen, onClose }) => {
+export const SuccessModal: FC<SuccessModalProps> = ({ txHash, isOpen, label = 'Successfully!', onClose }) => {
   const newWallet = useAppSelector((state) => state.web3.newWallet);
   const { refetch } = useReadTreasury();
   const { refetch: refetchNewWallet } = useReadNewWallet(newWallet);
@@ -38,17 +40,17 @@ export const SuccessModal: FC<SuccessModalProps> = ({ txHash, isOpen, onClose })
       isOpen={isOpen}
       onClose={handleClose}
       header=""
-      body={<Body handleClose={handleClose} txHash={txHash} />}
-    ></Modal>
+      body={<Body label={label} handleClose={handleClose} txHash={txHash} />}
+    />
   );
 };
 
-const Body: FC<IFBodyProps> = ({ txHash, handleClose }) => {
+const Body: FC<IFBodyProps> = ({ txHash, label, handleClose }) => {
   return (
     <div className="flex justify-center flex-col items-center gap-2">
       <Icons.success />
       <VStack>
-        <p className="text-center text-lg font-medium">Successfully!</p>
+        <p className="text-center text-lg font-medium">{label}</p>
         {txHash && (
           <a
             className="flex items-center gap-1 justify-center text-small text-neutral-03 text-center hover:underline"

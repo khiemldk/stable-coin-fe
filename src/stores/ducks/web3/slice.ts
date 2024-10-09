@@ -5,6 +5,7 @@ export interface IChatState {
   newWallet: `0x${string}` | '';
   txHash: `0x${string}` | '';
   modalType: ModalType | '';
+  label: string;
 }
 
 export enum ModalType {
@@ -19,6 +20,7 @@ const initialState = {
   newWallet: '',
   txHash: '',
   modalType: '',
+  label: '',
 } as IChatState;
 
 export const web3Slice = createSlice({
@@ -37,10 +39,11 @@ export const web3Slice = createSlice({
         txHash: actions.payload,
       };
     },
-    setModalType: (state: IChatState, actions: PayloadAction<ModalType | ''>) => {
+    setModalType: (state: IChatState, actions: PayloadAction<[ModalType | '', string]>) => {
       return {
         ...state,
-        modalType: actions.payload,
+        modalType: actions.payload[0],
+        label: actions.payload[1],
       };
     },
   },

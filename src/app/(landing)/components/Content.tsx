@@ -24,13 +24,6 @@ interface Props extends Omit<CardProps, 'children'> {
   children?: React.ReactNode;
 }
 
-export enum ActionType {
-  CREATE_WALLET = 'CREATE_WALLET',
-  MINT_USDC = 'MINT_USDC',
-  COLLECT_USDC = 'COLLECT_USDC',
-  BURN_USDC = 'BURN_USDC',
-}
-
 export default function Content({ ...props }: Props) {
   const { newWallet } = useAppSelector((state) => state.web3);
   const dispatch = useAppDispatch();
@@ -46,7 +39,7 @@ export default function Content({ ...props }: Props) {
     },
     onSuccess: async (res) => {
       dispatch(setNewWallet(res.walletAddress));
-      dispatch(setModalType(ModalType.SUCCESS));
+      dispatch(setModalType([ModalType.SUCCESS, 'Create Wallet Successfully!']));
     },
   });
 
@@ -57,13 +50,13 @@ export default function Content({ ...props }: Props) {
       toast.error(error.message);
     },
     onSuccess: async (data: { txHash: `0x${string}` }) => {
-      dispatch(setModalType(ModalType.SUCCESS));
+      dispatch(setModalType([ModalType.SUCCESS, 'Collect USDC Successfully!']));
       dispatch(setTxHash(data.txHash));
     },
   });
 
   const handleAction = (type: ModalType | '') => {
-    dispatch(setModalType(type));
+    dispatch(setModalType([type, '']));
   };
 
   return (
@@ -82,16 +75,16 @@ export default function Content({ ...props }: Props) {
         <CardBody className="px-4 pt-3 pb-4">
           <ListItem copyValue={address} label="Treasury Address" value={shortenWalletAddress(address)} />
           <ListItem copyValue={`${balance}`} label="Treasury Balance" value={`${bigNumberFormat(`${balance}`)} USDC`} />
-          {newWallet && (
-            <>
-              <ListItem copyValue={newWallet} label="New Address" value={shortenWalletAddress(newWallet)} />
-              <ListItem
-                copyValue={`${balanceNewAddress}`}
-                label="New Address Balance"
-                value={`${bigNumberFormat(`${balanceNewAddress}`)} USDC`}
-              />
-            </>
-          )}
+          <ListItem
+            copyValue={newWallet ? newWallet : 'Not created yet'}
+            label="New Wallet Address"
+            value={newWallet ? shortenWalletAddress(newWallet) : 'Not created yet'}
+          />
+          <ListItem
+            copyValue={`${balanceNewAddress}`}
+            label="New Wallet Balance"
+            value={`${bigNumberFormat(`${balanceNewAddress || 0}`)} USDC`}
+          />
           <VStack spacing={12}>
             <StyledButton
               variant="solid"
@@ -101,10 +94,6 @@ export default function Content({ ...props }: Props) {
               onClick={() => createNewWallet()}
             >
               Create wallet
-            </StyledButton>
-
-            <StyledButton variant="solid" color="primary" size="md" onClick={() => handleAction(ModalType.BURN_USDC)}>
-              Burn USDC
             </StyledButton>
 
             <StyledButton
@@ -130,6 +119,10 @@ export default function Content({ ...props }: Props) {
               }
             >
               Collect USDC
+            </StyledButton>
+
+            <StyledButton variant="solid" color="primary" size="md" onClick={() => handleAction(ModalType.BURN_USDC)}>
+              Burn USDC
             </StyledButton>
           </VStack>
         </CardBody>

@@ -8,11 +8,11 @@ import { MintModal } from './MintModal';
 import { SuccessModal } from './SuccessModal';
 
 const ModalContainer: FCC = ({}) => {
-  const { newWallet, modalType, txHash } = useAppSelector((state) => state.web3);
+  const { newWallet, modalType, txHash, label } = useAppSelector((state) => state.web3);
   const dispatch = useAppDispatch();
 
   const handleClose = (type: ModalType | '') => {
-    dispatch(setModalType(type));
+    dispatch(setModalType([type, '']));
     dispatch(setTxHash(''));
   };
 
@@ -24,7 +24,12 @@ const ModalContainer: FCC = ({}) => {
         onClose={() => handleClose('')}
         address={newWallet as `0x${string}`}
       />
-      <SuccessModal onClose={() => handleClose('')} isOpen={modalType === ModalType.SUCCESS} txHash={txHash} />
+      <SuccessModal
+        label={label}
+        onClose={() => handleClose('')}
+        isOpen={modalType === ModalType.SUCCESS}
+        txHash={txHash}
+      />
     </>
   );
 };
